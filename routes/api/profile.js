@@ -157,7 +157,7 @@ router.post('/',
                     //Create
                     //Save Profile
                     new Profile(profileFields).save().then(profile => res.json(profile));
-                })
+                });
             }
         });
     }
@@ -193,7 +193,7 @@ router.post('/experience', passport.authenticate('jwt', {session: false}), (req,
 
         //return profile with new experience
         profile.save().then(profile => res.json(profile));
-        })
+        });
 });
 
 
@@ -226,7 +226,61 @@ router.post('/education', passport.authenticate('jwt', {session: false}), (req, 
 
         //return profile with new experience
         profile.save().then(profile => res.json(profile));
-        })
+        });
 });
+
+
+// @route   DELETE api/profile/experience/:exp_id
+// @desc    Delete experience from profile
+// @access  Private
+router.delete(
+    '/experience/:exp_id', 
+    passport.authenticate('jwt', { session: false }), 
+    (req, res) => {
+        Profile.findOne({ user: req.user.id })
+            .then(profile => {
+            //Get remove index
+            //access profile, experience array
+            const removeIndex = profile.experience
+                //mapp array item to item id
+                .map(item => item.id)
+                //access exp_id
+                .indexOf(req.params.exp_id);
+            //Splice out of array, tells us which one we want to remove
+            profile.experience.splice(removeIndex, 1);
+
+            //Save
+            profile.save().then(profile => res.json(profile));
+        })
+        .catch(err => res.status(err));
+    }
+);
+
+
+// @route   DELETE api/profile/education/:edu_id
+// @desc    Delete education from profile
+// @access  Private
+router.delete(
+    '/education/:edu_id', 
+    passport.authenticate('jwt', { session: false }), 
+    (req, res) => {
+        Profile.findOne({ user: req.user.id })
+            .then(profile => {
+            //Get remove index
+            //access profile, experience array
+            const removeIndex = profile.education
+                //mapp array item to item id
+                .map(item => item.id)
+                //access exp_id
+                .indexOf(req.params.edu_id);
+            //Splice out of array, tells us which one we want to remove
+            profile.education.splice(removeIndex, 1);
+
+            //Save
+            profile.save().then(profile => res.json(profile));
+        })
+        .catch(err => res.status(err));
+    }
+);
 
 module.exports = router;
