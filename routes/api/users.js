@@ -13,15 +13,15 @@ const validateLoginInput = require('../../validation/login');
 const User =   require('../../models/User');
 
 //Serve JSON
-// @route GET api/users/test
-// @desc Test post route
-// @access Public
+// @route   GET api/users/test
+// @desc    Test post route
+// @access  Public
 router.get('/test', (req, res) => res.json({msg: "Users Works"}));
 
 //Serve JSON
-// @route GET api/users/register
-// @desc Register User
-// @access Public
+// @route   GET api/users/register
+// @desc    Register User
+// @access  Public
 router.post('/register', (req, res) => {
     const { errors, isValid } = validateRegisterInput(req.body);
 
@@ -68,9 +68,9 @@ router.post('/register', (req, res) => {
         })
 });
 
-// @route GET api/users/login
-// @desc Login User / Returning JWT token
-// @access Public
+// @route   GET api/users/login
+// @desc    Login User / Returning JWT token
+// @access  Public
 router.post('/login', (req, res) => {
     const { errors, isValid } = validateLoginInput(req.body);
 
@@ -121,9 +121,9 @@ router.post('/login', (req, res) => {
         });
 });
 
-// @route GET api/users/current
-// @desc Return current User 
-// @access Private
+// @route   GET api/users/current
+// @desc    Return current User 
+// @access  Private
 
 //jwt, strategy we're using, session false, another parameter
 //which is our callback with our request response, but its protected
