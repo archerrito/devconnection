@@ -4,6 +4,7 @@ const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
+const passport = require('passport');
 
 //Load user model
 const User =   require('../../models/User');
@@ -101,6 +102,25 @@ router.post('/login', (req, res) => {
                 })
         });
 });
+
+// @route GET api/users/current
+// @desc Return current User 
+// @access Private
+
+//jwt, strategy we're using, session false, another parameter
+//which is our callback with our request response, but its protected
+
+router.get(
+    '/current', 
+    passport.authenticate('jwt', { session: false }), 
+    (req, res) => {
+     //ultimatele where we get response
+        res.json({
+            id: req.user.id,
+            name: req.user.name,
+            email: req.user.email
+        });
+    });
 
 //export for server to pick up
 module.exports = router;
