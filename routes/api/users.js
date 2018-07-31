@@ -5,7 +5,7 @@ const router = express.Router();
 // @ route GET api/users/test
 // @desc Test post route
 // @access Public
-router.get('/archer', (req, res) => res.json({msg: "Users Works"}));
+router.get('/test', (req, res) => res.json({msg: "Users Works"}));
 
 //export for server to pick up
 module.exports = router;
