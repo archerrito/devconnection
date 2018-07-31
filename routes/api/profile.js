@@ -3,6 +3,9 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
 
+//Load Validation
+const validateProfileInput = require('../../validation/profile');
+
 // Load Profile Model
 const Profile = require('../../models/Profile');
 // Load User Profile
@@ -22,6 +25,8 @@ router.get('/',
     const errors = {};
  //Protected route, will get token in req.user.id
     Profile.findOne({ user: req.user.id })
+        //grabs name and avatar from user object in profile schema
+        .populate('user', ['name', 'avatar'])
         //will give profile
         .then(profile => {
             if(!profile) {
@@ -39,6 +44,14 @@ router.get('/',
 router.post('/', 
     passport.authenticate('jwt', {session: false}), 
     (req, res) => {
+        const { errors, isValid } = validateProfileInput(req.body);
+
+        //Check Validation
+        if (!isValid) {
+            //Return errors with 400 status
+            return res.status(400).json(errors);
+        }
+
         //Get fields
         const profileFields = {};
 
@@ -46,6 +59,7 @@ router.post('/',
         profileFields.user = req.user.id;
         if (req.body.handle) profileFields.handle = req.body.handle;
         if (req.body.company) profileFields.company = req.body.company;
+        if (req.body.website) profileFields.website = req.body.website;
         if (req.body.location) profileFields.location = req.body.location;
         if (req.body.bio) profileFields.bio = req.body.bio;
         if (req.body.status) profileFields.status = req.body.status;
