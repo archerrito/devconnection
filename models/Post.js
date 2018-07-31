@@ -27,12 +27,12 @@ const PostSchema = new Schema({
     ],
     comments: [
         {
-            users: {
-                types: Schema.Types.ObjectId,
+            user: {
+                type: Schema.Types.ObjectId,
                 ref: 'users'
             },
             text: {
-                types: String,
+                type: String,
                 required: true
             },
             name: {
