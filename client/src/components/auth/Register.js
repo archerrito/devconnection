@@ -27,7 +27,6 @@ class Register extends Component {
       passwordtwo: this.state.passwordtwo
     };
 
-    console.log(newUser);
   }
   render() {
     return (
