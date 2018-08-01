@@ -19,10 +19,10 @@ class Login extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const newUser = {
-      email: this.state.email,
-      password: this.state.password,
-    };
+    // const newUser = {
+    //   email: this.state.email,
+    //   password: this.state.password,
+    // };
 
   }
   render() {
