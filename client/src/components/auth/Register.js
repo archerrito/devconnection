@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import classnames from 'classnames';
-
+import { connect } from 'react-redux';
+import { registerUser } from '../../actions/authActions';
 
 class Register extends Component {
   constructor() {
@@ -29,15 +30,21 @@ class Register extends Component {
       password: this.state.password,
       passwordtwo: this.state.passwordtwo
     };
-    axios.post('/api/users/register', newUser)
-      //gives promise with result
-      .then(res => console.log(res.data))
-      .catch(err => this.setState({errors: err.response.data}));
+
+    //call to action
+    this.props.registerUser(newUser);
+    // axios.post('/api/users/register', newUser)
+    //   //gives promise with result
+    //   .then(res => console.log(res.data))
+    //   .catch(err => this.setState({errors: err.response.data}));
   }
   render() {
     const {errors} = this.state;
+
+    const { user } = this.props.auth;
     return (
       <div className="register">
+      {user ? user.name : null}
     <div className="container">
       <div className="row">
         <div className="col-md-8 m-auto">
@@ -107,4 +114,9 @@ class Register extends Component {
   }
 }
 
-export default Register;
+//if we want to get our auth state to component
+const mapStateToProps = (state) => ({
+auth: state.auth
+})
+
+export default connect(mapStateToProps, {registerUser})(Register);
