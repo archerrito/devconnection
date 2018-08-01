@@ -4,7 +4,7 @@ const setAuthToken = token => {
     if(token) {
         //apply to every request
         //header value in postman
-        axios.defaults.headers.common['Authorization']
+        axios.defaults.headers.common['Authorization'] = token;
     } else {
         //Delete Auth header
         delete axios.defaults.headers.common['Authorization'];
